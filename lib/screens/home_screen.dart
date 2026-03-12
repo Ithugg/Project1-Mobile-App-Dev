@@ -96,18 +96,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (_suggestion != null) _buildAISuggestionCard(theme),
                   const SizedBox(height: 16),
                   // Active quests
-                  Text('Active Quests', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                  Text('Active Quests',
+                      style: theme.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   if (_activeQuests.isEmpty)
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.all(24),
                         child: Column(children: [
-                          Icon(Icons.flag_outlined, size: 48, color: theme.colorScheme.outline),
+                          Icon(Icons.flag_outlined,
+                              size: 48, color: theme.colorScheme.outline),
                           const SizedBox(height: 8),
-                          Text('No active quests yet', style: theme.textTheme.bodyLarge),
+                          Text('No active quests yet',
+                              style: theme.textTheme.bodyLarge),
                           const SizedBox(height: 4),
-                          Text('Go to the Quests tab to create one!', style: theme.textTheme.bodySmall),
+                          Text('Go to the Quests tab to create one!',
+                              style: theme.textTheme.bodySmall),
                         ]),
                       ),
                     ),
@@ -129,7 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(width: 8),
         _statCard('Minutes', '$_totalMinutes', Icons.timer, theme),
         const SizedBox(width: 8),
-        _statCard('Streak', '$_streak day${_streak == 1 ? '' : 's'}', Icons.local_fire_department, theme),
+        _statCard('Streak', '$_streak day${_streak == 1 ? '' : 's'}',
+            Icons.local_fire_department, theme),
       ],
     );
   }
@@ -142,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(children: [
             Icon(icon, color: theme.colorScheme.primary),
             const SizedBox(height: 4),
-            Text(value, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+            Text(value,
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             Text(label, style: theme.textTheme.bodySmall),
           ]),
         ),
@@ -151,9 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildStreakCard(ThemeData theme) {
-    // Simple 5-week heatmap (last 35 days)
+    // The Simple 5-week heatmap (last 35 days)
     final today = DateTime.now();
-    final days = List.generate(35, (i) => today.subtract(Duration(days: 34 - i)));
+    final days =
+        List.generate(35, (i) => today.subtract(Duration(days: 34 - i)));
 
     return Card(
       child: Padding(
@@ -162,9 +171,11 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
-              Icon(Icons.calendar_month, size: 20, color: theme.colorScheme.primary),
+              Icon(Icons.calendar_month,
+                  size: 20, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
-              Text('Activity (Last 5 Weeks)', style: theme.textTheme.titleSmall),
+              Text('Activity (Last 5 Weeks)',
+                  style: theme.textTheme.titleSmall),
             ]),
             const SizedBox(height: 12),
             // Heatmap grid
@@ -188,7 +199,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (count == 0) {
                     color = theme.colorScheme.surfaceContainerHighest;
                   } else if (count == 1) {
-                    color = theme.colorScheme.primary.withAlpha((0.4 * 255).round());
+                    color = theme.colorScheme.primary
+                        .withAlpha((0.4 * 255).round());
                   } else {
                     color = theme.colorScheme.primary;
                   }
@@ -197,7 +209,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       color: color,
                       borderRadius: BorderRadius.circular(3),
-                      border: isToday ? Border.all(color: theme.colorScheme.primary, width: 2) : null,
+                      border: isToday
+                          ? Border.all(
+                              color: theme.colorScheme.primary, width: 2)
+                          : null,
                     ),
                   );
                 },
@@ -220,38 +235,47 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
-              Icon(Icons.auto_awesome, size: 20, color: theme.colorScheme.onPrimaryContainer),
+              Icon(Icons.auto_awesome,
+                  size: 20, color: theme.colorScheme.onPrimaryContainer),
               const SizedBox(width: 8),
-              Text('AI Trainer Suggestion', style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.onPrimaryContainer,
-                fontWeight: FontWeight.bold,
-              )),
+              Text('AI Trainer Suggestion',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: theme.colorScheme.onPrimaryContainer,
+                    fontWeight: FontWeight.bold,
+                  )),
             ]),
             const SizedBox(height: 8),
-            Text(_suggestion!.title, style: theme.textTheme.titleMedium?.copyWith(
-              color: theme.colorScheme.onPrimaryContainer,
-              fontWeight: FontWeight.bold,
-            )),
+            Text(_suggestion!.title,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: theme.colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                )),
             const SizedBox(height: 4),
-            Text(_suggestion!.reasoning, style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onPrimaryContainer.withAlpha((0.8 * 255).round()),
-            )),
+            Text(_suggestion!.reasoning,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onPrimaryContainer
+                      .withAlpha((0.8 * 255).round()),
+                )),
             const SizedBox(height: 8),
             Wrap(
               spacing: 6,
               runSpacing: 4,
-              children: _suggestion!.exercises.map((e) => Chip(
-                label: Text(e, style: const TextStyle(fontSize: 12)),
-                visualDensity: VisualDensity.compact,
-              )).toList(),
+              children: _suggestion!.exercises
+                  .map((e) => Chip(
+                        label: Text(e, style: const TextStyle(fontSize: 12)),
+                        visualDensity: VisualDensity.compact,
+                      ))
+                  .toList(),
             ),
             const SizedBox(height: 8),
             // Feedback row
             Row(
               children: [
-                Text('Helpful?', style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onPrimaryContainer.withAlpha((0.7 * 255).round()),
-                )),
+                Text('Helpful?',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onPrimaryContainer
+                          .withAlpha((0.7 * 255).round()),
+                    )),
                 const SizedBox(width: 8),
                 IconButton.filledTonal(
                   icon: const Icon(Icons.thumb_up, size: 18),
@@ -259,7 +283,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     await ai.saveFeedback(_suggestion!.title, true);
                     if (mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Thanks for the feedback!'), duration: Duration(seconds: 1)),
+                        const SnackBar(
+                            content: Text('Thanks for the feedback!'),
+                            duration: Duration(seconds: 1)),
                       );
                     }
                   },
@@ -288,7 +314,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => WorkoutLoggerScreen(quest: quest)),
+            MaterialPageRoute(
+                builder: (_) => WorkoutLoggerScreen(quest: quest)),
           ).then((_) => _loadData());
         },
         child: Padding(
@@ -298,12 +325,19 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Row(
                 children: [
-                  Expanded(child: Text(quest.title, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold))),
-                  Text('${quest.completedSessions}/${quest.targetSessions}', style: theme.textTheme.bodySmall),
+                  Expanded(
+                      child: Text(quest.title,
+                          style: theme.textTheme.titleSmall
+                              ?.copyWith(fontWeight: FontWeight.bold))),
+                  Text('${quest.completedSessions}/${quest.targetSessions}',
+                      style: theme.textTheme.bodySmall),
                 ],
               ),
               const SizedBox(height: 4),
-              Text(quest.description, style: theme.textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+              Text(quest.description,
+                  style: theme.textTheme.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
               const SizedBox(height: 8),
               LinearProgressIndicator(
                 value: quest.progress.clamp(0.0, 1.0),
@@ -311,7 +345,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 4),
               Text('${quest.exercises.length} exercises • Tap to start workout',
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.primary)),
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: theme.colorScheme.primary)),
             ],
           ),
         ),
