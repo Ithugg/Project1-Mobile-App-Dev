@@ -39,7 +39,7 @@ _Add screenshots here after building the app._
 1. **Prerequisites**: Install [Flutter](https://flutter.dev/docs/get-started/install) (latest stable)
 2. **Clone the repo**:
    ```bash
-   git clone https://github.com/[username]/fitness-quest.git
+git clone https://github.com/Ithugg/Project1-Mobile-App-Dev.git
    cd fitness-quest
    ```
 3. **Install dependencies**:
