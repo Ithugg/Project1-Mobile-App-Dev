@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/database_helper.dart';
 import '../models/models.dart';
 
-/// Browsable/searchable/filterable exercise library with add-custom capability.
+/// Browsable,searchable, and filterable exercise library with add-custom capability.
 class ExerciseLibraryScreen extends StatefulWidget {
   const ExerciseLibraryScreen({super.key});
 
@@ -18,7 +18,15 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
   String? _selectedDifficulty;
   bool _loading = true;
 
-  static const _muscleGroups = ['Chest', 'Back', 'Shoulders', 'Arms', 'Legs', 'Core', 'Cardio'];
+  static const _muscleGroups = [
+    'Chest',
+    'Back',
+    'Shoulders',
+    'Arms',
+    'Legs',
+    'Core',
+    'Cardio'
+  ];
   static const _difficulties = ['Beginner', 'Intermediate', 'Advanced'];
 
   @override
@@ -34,7 +42,11 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
       difficulty: _selectedDifficulty,
       search: _searchQuery.isNotEmpty ? _searchQuery : null,
     );
-    if (mounted) setState(() { _exercises = exercises; _loading = false; });
+    if (mounted)
+      setState(() {
+        _exercises = exercises;
+        _loading = false;
+      });
   }
 
   @override
@@ -57,10 +69,12 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
                 hintText: 'Search exercises...',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(icon: const Icon(Icons.clear), onPressed: () {
-                        setState(() => _searchQuery = '');
-                        _loadExercises();
-                      })
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() => _searchQuery = '');
+                          _loadExercises();
+                        })
                     : null,
               ),
               onChanged: (v) {
@@ -76,29 +90,30 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
             child: Row(children: [
               // Muscle group filter
               ...(_muscleGroups.map((m) => Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: FilterChip(
-                  label: Text(m),
-                  selected: _selectedMuscle == m,
-                  onSelected: (selected) {
-                    setState(() => _selectedMuscle = selected ? m : null);
-                    _loadExercises();
-                  },
-                ),
-              ))),
+                    padding: const EdgeInsets.only(right: 6),
+                    child: FilterChip(
+                      label: Text(m),
+                      selected: _selectedMuscle == m,
+                      onSelected: (selected) {
+                        setState(() => _selectedMuscle = selected ? m : null);
+                        _loadExercises();
+                      },
+                    ),
+                  ))),
               const SizedBox(width: 8),
               // Difficulty filter
               ...(_difficulties.map((d) => Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: FilterChip(
-                  label: Text(d),
-                  selected: _selectedDifficulty == d,
-                  onSelected: (selected) {
-                    setState(() => _selectedDifficulty = selected ? d : null);
-                    _loadExercises();
-                  },
-                ),
-              ))),
+                    padding: const EdgeInsets.only(right: 6),
+                    child: FilterChip(
+                      label: Text(d),
+                      selected: _selectedDifficulty == d,
+                      onSelected: (selected) {
+                        setState(
+                            () => _selectedDifficulty = selected ? d : null);
+                        _loadExercises();
+                      },
+                    ),
+                  ))),
             ]),
           ),
           const Divider(height: 1),
@@ -107,13 +122,16 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _exercises.isEmpty
-                    ? Center(child: Text('No exercises found', style: theme.textTheme.bodyLarge))
+                    ? Center(
+                        child: Text('No exercises found',
+                            style: theme.textTheme.bodyLarge))
                     : RefreshIndicator(
                         onRefresh: _loadExercises,
                         child: ListView.builder(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           itemCount: _exercises.length,
-                          itemBuilder: (context, index) => _buildExerciseTile(_exercises[index], theme),
+                          itemBuilder: (context, index) =>
+                              _buildExerciseTile(_exercises[index], theme),
                         ),
                       ),
           ),
@@ -126,28 +144,52 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
     // Icon based on muscle group
     IconData icon;
     switch (exercise.muscleGroup) {
-      case 'Chest': icon = Icons.airline_seat_flat; break;
-      case 'Back': icon = Icons.accessibility_new; break;
-      case 'Shoulders': icon = Icons.expand_less; break;
-      case 'Arms': icon = Icons.front_hand; break;
-      case 'Legs': icon = Icons.directions_walk; break;
-      case 'Core': icon = Icons.circle_outlined; break;
-      case 'Cardio': icon = Icons.favorite; break;
-      default: icon = Icons.fitness_center;
+      case 'Chest':
+        icon = Icons.airline_seat_flat;
+        break;
+      case 'Back':
+        icon = Icons.accessibility_new;
+        break;
+      case 'Shoulders':
+        icon = Icons.expand_less;
+        break;
+      case 'Arms':
+        icon = Icons.front_hand;
+        break;
+      case 'Legs':
+        icon = Icons.directions_walk;
+        break;
+      case 'Core':
+        icon = Icons.circle_outlined;
+        break;
+      case 'Cardio':
+        icon = Icons.favorite;
+        break;
+      default:
+        icon = Icons.fitness_center;
     }
 
     // Difficulty color
     Color diffColor;
     switch (exercise.difficulty) {
-      case 'Beginner': diffColor = Colors.green; break;
-      case 'Intermediate': diffColor = Colors.orange; break;
-      case 'Advanced': diffColor = Colors.red; break;
-      default: diffColor = Colors.grey;
+      case 'Beginner':
+        diffColor = Colors.green;
+        break;
+      case 'Intermediate':
+        diffColor = Colors.orange;
+        break;
+      case 'Advanced':
+        diffColor = Colors.red;
+        break;
+      default:
+        diffColor = Colors.grey;
     }
 
     return Dismissible(
       key: Key(exercise.id),
-      direction: exercise.isCustom ? DismissDirection.endToStart : DismissDirection.none,
+      direction: exercise.isCustom
+          ? DismissDirection.endToStart
+          : DismissDirection.none,
       background: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 16),
@@ -161,8 +203,12 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
             title: const Text('Delete Exercise?'),
             content: const Text('This will remove the custom exercise.'),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-              TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Delete')),
+              TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: const Text('Cancel')),
+              TextButton(
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: const Text('Delete')),
             ],
           ),
         );
@@ -175,7 +221,8 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: theme.colorScheme.primaryContainer,
-          child: Icon(icon, color: theme.colorScheme.onPrimaryContainer, size: 20),
+          child:
+              Icon(icon, color: theme.colorScheme.onPrimaryContainer, size: 20),
         ),
         title: Text(exercise.name),
         subtitle: Text('${exercise.muscleGroup} • ${exercise.equipment}'),
@@ -185,7 +232,9 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
             color: diffColor.withAlpha((0.15 * 255).round()),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(exercise.difficulty, style: TextStyle(fontSize: 11, color: diffColor, fontWeight: FontWeight.bold)),
+          child: Text(exercise.difficulty,
+              style: TextStyle(
+                  fontSize: 11, color: diffColor, fontWeight: FontWeight.bold)),
         ),
         onTap: () => _showExerciseDetail(exercise),
       ),
@@ -220,7 +269,10 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(children: [
-        SizedBox(width: 120, child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold))),
+        SizedBox(
+            width: 120,
+            child: Text(label,
+                style: const TextStyle(fontWeight: FontWeight.bold))),
         Expanded(child: Text(value)),
       ]),
     );
@@ -243,34 +295,50 @@ class _ExerciseLibraryScreenState extends State<ExerciseLibraryScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: 'Exercise Name')),
+                TextField(
+                    controller: nameCtrl,
+                    decoration:
+                        const InputDecoration(labelText: 'Exercise Name')),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   initialValue: muscleGroup,
                   decoration: const InputDecoration(labelText: 'Muscle Group'),
-                  items: _muscleGroups.map((m) => DropdownMenuItem(value: m, child: Text(m))).toList(),
+                  items: _muscleGroups
+                      .map((m) => DropdownMenuItem(value: m, child: Text(m)))
+                      .toList(),
                   onChanged: (v) => setDialogState(() => muscleGroup = v!),
                 ),
                 const SizedBox(height: 8),
                 DropdownButtonFormField<String>(
                   initialValue: difficulty,
                   decoration: const InputDecoration(labelText: 'Difficulty'),
-                  items: _difficulties.map((d) => DropdownMenuItem(value: d, child: Text(d))).toList(),
+                  items: _difficulties
+                      .map((d) => DropdownMenuItem(value: d, child: Text(d)))
+                      .toList(),
                   onChanged: (v) => setDialogState(() => difficulty = v!),
                 ),
                 const SizedBox(height: 8),
-                TextField(controller: TextEditingController(text: equipment),
+                TextField(
+                  controller: TextEditingController(text: equipment),
                   decoration: const InputDecoration(labelText: 'Equipment'),
                   onChanged: (v) => equipment = v,
                 ),
                 const SizedBox(height: 8),
-                TextField(controller: notesCtrl, decoration: const InputDecoration(labelText: 'Notes (optional)'), maxLines: 2),
+                TextField(
+                    controller: notesCtrl,
+                    decoration:
+                        const InputDecoration(labelText: 'Notes (optional)'),
+                    maxLines: 2),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
-            TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Save')),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx, false),
+                child: const Text('Cancel')),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx, true),
+                child: const Text('Save')),
           ],
         ),
       ),
