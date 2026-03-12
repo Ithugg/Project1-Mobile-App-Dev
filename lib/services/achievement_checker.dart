@@ -1,6 +1,5 @@
 import 'database_helper.dart';
 
-/// Checks and unlocks achievements based on current user progress.
 /// Call after every workout log to see if new badges are earned.
 class AchievementChecker {
   final DatabaseHelper _db;
@@ -16,7 +15,8 @@ class AchievementChecker {
     final distinctExercises = await _db.getDistinctExerciseCount();
     final quests = await _db.getQuests();
     final completedQuests = quests.where((q) => q.isCompleted).length;
-    final activeQuests = quests.where((q) => q.isActive && !q.isCompleted).length;
+    final activeQuests =
+        quests.where((q) => q.isActive && !q.isCompleted).length;
     final logs = await _db.getWorkoutLogs(limit: 1);
     final hasRated5 = logs.isNotEmpty && logs.any((l) => l.rating == 5);
 
