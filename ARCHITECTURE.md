@@ -43,3 +43,4 @@ The AI trainer uses simple if/then scoring:
 6. Store user feedback (thumbs up/down) to weight future suggestions
 
 This approach is fully local, explainable, and demo-friendly.
+TY
