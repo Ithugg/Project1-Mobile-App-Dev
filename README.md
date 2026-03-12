@@ -4,7 +4,7 @@ A gamified workout tracking and training challenge app built with **Flutter** an
 
 ## Team
 
-- **[Your Name]** — Solo Developer (Undergraduate)
+- **Ismail El Ktiri EL Idrissi** — Solo Developer (Undergraduate)
 
 ## Features
 
