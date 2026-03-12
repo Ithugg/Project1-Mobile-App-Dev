@@ -5,7 +5,7 @@ import '../services/database_helper.dart';
 import '../services/preferences_service.dart';
 import 'achievements_screen.dart';
 
-/// Profile and settings screen.
+/// Profile and settings screen .
 /// Shows user info, preferences, dark mode toggle, and achievements link.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -59,10 +59,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 CircleAvatar(
                   radius: 36,
                   backgroundColor: theme.colorScheme.primaryContainer,
-                  child: Icon(Icons.person, size: 40, color: theme.colorScheme.onPrimaryContainer),
+                  child: Icon(Icons.person,
+                      size: 40, color: theme.colorScheme.onPrimaryContainer),
                 ),
                 const SizedBox(height: 12),
-                Text(prefs.userName, style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+                Text(prefs.userName,
+                    style: theme.textTheme.titleLarge
+                        ?.copyWith(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
                 Text(prefs.fitnessGoal, style: theme.textTheme.bodySmall),
                 const SizedBox(height: 16),
@@ -95,7 +98,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 16),
 
           // Settings section
-          Text('Settings', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Settings',
+              style: theme.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
 
           // Dark mode
@@ -125,7 +130,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Icon(Icons.edit),
               title: const Text('Edit Name'),
               subtitle: Text(prefs.userName),
-              onTap: () => _editField('Name', prefs.userName, (v) => prefs.setUserName(v)),
+              onTap: () => _editField(
+                  'Name', prefs.userName, (v) => prefs.setUserName(v)),
             ),
           ),
 
@@ -135,7 +141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: const Icon(Icons.flag),
               title: const Text('Fitness Goal'),
               subtitle: Text(prefs.fitnessGoal),
-              onTap: () => _editField('Fitness Goal', prefs.fitnessGoal, (v) => prefs.setFitnessGoal(v)),
+              onTap: () => _editField('Fitness Goal', prefs.fitnessGoal,
+                  (v) => prefs.setFitnessGoal(v)),
             ),
           ),
 
@@ -152,7 +159,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 16),
 
           // Data section
-          Text('Data', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Data',
+              style: theme.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
 
           // Export data
@@ -170,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           // App info
           Center(
             child: Text('Fitness Quest v1.0.0\nBuilt with Flutter & SQLite',
-              style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
+                style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
           ),
           const SizedBox(height: 24),
         ],
@@ -180,21 +189,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _miniStat(String value, String label, ThemeData theme) {
     return Column(children: [
-      Text(value, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+      Text(value,
+          style: theme.textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold)),
       Text(label, style: theme.textTheme.bodySmall),
     ]);
   }
 
-  Future<void> _editField(String label, String currentValue, Future<void> Function(String) onSave) async {
+  Future<void> _editField(String label, String currentValue,
+      Future<void> Function(String) onSave) async {
     final ctrl = TextEditingController(text: currentValue);
     final result = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('Edit $label'),
-        content: TextField(controller: ctrl, autofocus: true, decoration: InputDecoration(labelText: label)),
+        content: TextField(
+            controller: ctrl,
+            autofocus: true,
+            decoration: InputDecoration(labelText: label)),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.pop(ctx, ctrl.text.trim()), child: const Text('Save')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, ctrl.text.trim()),
+              child: const Text('Save')),
         ],
       ),
     );
@@ -213,7 +231,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('$target workouts per week', style: Theme.of(ctx).textTheme.titleLarge),
+              Text('$target workouts per week',
+                  style: Theme.of(ctx).textTheme.titleLarge),
               Slider(
                 value: target.toDouble(),
                 min: 1,
@@ -225,8 +244,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-            TextButton(onPressed: () => Navigator.pop(ctx, target), child: const Text('Save')),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Cancel')),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx, target),
+                child: const Text('Save')),
           ],
         ),
       ),
@@ -257,11 +280,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: double.maxFinite,
             height: 300,
             child: SingleChildScrollView(
-              child: SelectableText(jsonStr, style: const TextStyle(fontSize: 11, fontFamily: 'monospace')),
+              child: SelectableText(jsonStr,
+                  style:
+                      const TextStyle(fontSize: 11, fontFamily: 'monospace')),
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close')),
+            TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Close')),
           ],
         ),
       );
