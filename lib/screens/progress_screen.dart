@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../services/database_helper.dart';
 
-/// Progress dashboard showing streak heatmap, volume charts, and muscle group distribution.
+/// Progress dashboard showing the streak heatmap, volume charts, and muscle group distribution.
 class ProgressScreen extends StatefulWidget {
   const ProgressScreen({super.key});
 
@@ -63,51 +63,65 @@ class _ProgressScreenState extends State<ProgressScreen> {
         children: [
           // Summary cards
           Row(children: [
-            _summaryCard('Total Workouts', '$_workoutCount', Icons.fitness_center, theme),
+            _summaryCard('Total Workouts', '$_workoutCount',
+                Icons.fitness_center, theme),
             const SizedBox(width: 8),
             _summaryCard('Total Minutes', '$_totalMinutes', Icons.timer, theme),
             const SizedBox(width: 8),
-            _summaryCard('Current Streak', '$_streak days', Icons.local_fire_department, theme),
+            _summaryCard('Current Streak', '$_streak days',
+                Icons.local_fire_department, theme),
           ]),
           const SizedBox(height: 20),
 
           // Weekly volume chart
-          Text('Weekly Volume', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Weekly Volume',
+              style: theme.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
-          Text('Total weight × reps per week', style: theme.textTheme.bodySmall),
+          Text('Total weight × reps per week',
+              style: theme.textTheme.bodySmall),
           const SizedBox(height: 12),
           SizedBox(
             height: 200,
             child: _weeklyVolume.isEmpty
-                ? Center(child: Text('No data yet. Start logging workouts!', style: theme.textTheme.bodySmall))
+                ? Center(
+                    child: Text('No data yet. Start logging workouts!',
+                        style: theme.textTheme.bodySmall))
                 : _buildVolumeChart(theme),
           ),
           const SizedBox(height: 24),
 
           // Muscle group distribution
-          Text('Muscle Group Focus (30 days)', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          Text('Muscle Group Focus (30 days)',
+              style: theme.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           SizedBox(
             height: 200,
             child: _muscleDistribution.isEmpty
-                ? Center(child: Text('No data yet.', style: theme.textTheme.bodySmall))
+                ? Center(
+                    child:
+                        Text('No data yet.', style: theme.textTheme.bodySmall))
                 : _buildMuscleChart(theme),
           ),
           const SizedBox(height: 24),
 
           // Muscle breakdown list
           if (_muscleDistribution.isNotEmpty) ...[
-            ...(_muscleDistribution.entries.toList()..sort((a, b) => b.value.compareTo(a.value)))
+            ...(_muscleDistribution.entries.toList()
+                  ..sort((a, b) => b.value.compareTo(a.value)))
                 .map((entry) => ListTile(
-              dense: true,
-              leading: CircleAvatar(
-                radius: 16,
-                backgroundColor: _muscleColor(entry.key),
-                child: Text('${entry.value}', style: const TextStyle(color: Colors.white, fontSize: 12)),
-              ),
-              title: Text(entry.key),
-              subtitle: Text('${entry.value} sets logged'),
-            )),
+                      dense: true,
+                      leading: CircleAvatar(
+                        radius: 16,
+                        backgroundColor: _muscleColor(entry.key),
+                        child: Text('${entry.value}',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12)),
+                      ),
+                      title: Text(entry.key),
+                      subtitle: Text('${entry.value} sets logged'),
+                    )),
           ],
           const SizedBox(height: 24),
         ],
@@ -115,7 +129,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  Widget _summaryCard(String label, String value, IconData icon, ThemeData theme) {
+  Widget _summaryCard(
+      String label, String value, IconData icon, ThemeData theme) {
     return Expanded(
       child: Card(
         child: Padding(
@@ -123,8 +138,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
           child: Column(children: [
             Icon(icon, color: theme.colorScheme.primary),
             const SizedBox(height: 4),
-            Text(value, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-            Text(label, style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
+            Text(value,
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            Text(label,
+                style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
           ]),
         ),
       ),
@@ -141,12 +159,23 @@ class _ProgressScreenState extends State<ProgressScreen> {
       LineChartData(
         gridData: const FlGridData(show: true, drawVerticalLine: false),
         titlesData: FlTitlesData(
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 50,
-            getTitlesWidget: (value, meta) => Text(_formatVolume(value), style: const TextStyle(fontSize: 10)))),
-          bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 24,
-            getTitlesWidget: (value, meta) => Text('W${value.toInt() + 1}', style: const TextStyle(fontSize: 10)))),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 50,
+                  getTitlesWidget: (value, meta) => Text(_formatVolume(value),
+                      style: const TextStyle(fontSize: 10)))),
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 24,
+                  getTitlesWidget: (value, meta) => Text(
+                      'W${value.toInt() + 1}',
+                      style: const TextStyle(fontSize: 10)))),
+          topTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
         borderData: FlBorderData(show: false),
         lineBarsData: [
@@ -182,7 +211,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
             title: '${pct.toStringAsFixed(0)}%',
             color: _muscleColor(e.key),
             radius: 50,
-            titleStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+            titleStyle: const TextStyle(
+                fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
           );
         }).toList(),
       ),
@@ -191,14 +221,22 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   Color _muscleColor(String group) {
     switch (group) {
-      case 'Chest': return Colors.red.shade400;
-      case 'Back': return Colors.blue.shade400;
-      case 'Shoulders': return Colors.orange.shade400;
-      case 'Arms': return Colors.purple.shade400;
-      case 'Legs': return Colors.green.shade400;
-      case 'Core': return Colors.teal.shade400;
-      case 'Cardio': return Colors.pink.shade400;
-      default: return Colors.grey;
+      case 'Chest':
+        return Colors.red.shade400;
+      case 'Back':
+        return Colors.blue.shade400;
+      case 'Shoulders':
+        return Colors.orange.shade400;
+      case 'Arms':
+        return Colors.purple.shade400;
+      case 'Legs':
+        return Colors.green.shade400;
+      case 'Core':
+        return Colors.teal.shade400;
+      case 'Cardio':
+        return Colors.pink.shade400;
+      default:
+        return Colors.grey;
     }
   }
 
