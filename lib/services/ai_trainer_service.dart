@@ -16,14 +16,23 @@ class AITrainerService {
     final workoutCount = await _db.getWorkoutCount();
 
     // All possible muscle groups
-    const allGroups = ['Chest', 'Back', 'Shoulders', 'Arms', 'Legs', 'Core', 'Cardio'];
+    const allGroups = [
+      'Chest',
+      'Back',
+      'Shoulders',
+      'Arms',
+      'Legs',
+      'Core',
+      'Cardio'
+    ];
 
     // If no workouts yet, suggest a beginner-friendly start
     if (logs.isEmpty) {
       return AISuggestion(
         title: 'Start Your Journey!',
         muscleGroup: 'Legs',
-        reasoning: 'Welcome! Legs are the largest muscle group — a great place to start building strength and burning calories.',
+        reasoning:
+            'Welcome! Legs are the largest muscle group — a great place to start building strength and burning calories.',
         exercises: ['Squats', 'Lunges', 'Calf Raises', 'Plank'],
         intensity: 'Beginner',
       );
@@ -41,23 +50,27 @@ class AITrainerService {
     }
 
     // Check days since last workout
-    final daysSinceLastWorkout = DateTime.now().difference(logs.first.date).inDays;
+    final daysSinceLastWorkout =
+        DateTime.now().difference(logs.first.date).inDays;
 
-    // Determine intensity based on recent activity
+    // Determined intensity based on recent activity
     String intensity;
     String reasoning;
 
     if (daysSinceLastWorkout >= 3) {
       // Long rest — suggest moderate restart
       intensity = 'Beginner';
-      reasoning = "You haven't worked out in $daysSinceLastWorkout days. Let's ease back in with a moderate $leastTrained session to rebuild momentum.";
+      reasoning =
+          "You haven't worked out in $daysSinceLastWorkout days. Let's ease back in with a moderate $leastTrained session to rebuild momentum.";
     } else if (streak >= 5) {
       // On a good streak — check for overtraining
       intensity = 'Intermediate';
-      reasoning = "Great $streak-day streak! Your $leastTrained could use attention — you've only hit it ${muscleDistribution[leastTrained] ?? 0} time(s) this week.";
+      reasoning =
+          "Great $streak-day streak! Your $leastTrained could use attention — you've only hit it ${muscleDistribution[leastTrained] ?? 0} time(s) this week.";
     } else {
       intensity = 'Intermediate';
-      reasoning = "$leastTrained is your least-trained group this week (${muscleDistribution[leastTrained] ?? 0} sessions). Balancing your training will help avoid imbalances.";
+      reasoning =
+          "$leastTrained is your least-trained group this week (${muscleDistribution[leastTrained] ?? 0} sessions). Balancing your training will help avoid imbalances.";
     }
 
     // Check user feedback patterns
@@ -69,7 +82,8 @@ class AITrainerService {
     }
 
     // Build exercise suggestions based on muscle group
-    final exercises = await _db.getExercises(muscleGroup: leastTrained, difficulty: intensity);
+    final exercises = await _db.getExercises(
+        muscleGroup: leastTrained, difficulty: intensity);
     final exerciseNames = exercises.take(4).map((e) => e.name).toList();
     if (exerciseNames.isEmpty) {
       // Fallback if no exercises match the exact difficulty
