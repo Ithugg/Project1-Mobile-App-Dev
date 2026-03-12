@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import '../services/database_helper.dart';
 import '../models/models.dart';
 
-/// Badge gallery showing all achievements — earned and locked.
+/// Badge gallery showing all achievements  earned and locked.
 class AchievementsScreen extends StatefulWidget {
   const AchievementsScreen({super.key});
 
@@ -31,23 +31,38 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
       if (!a.isUnlocked && b.isUnlocked) return 1;
       return a.title.compareTo(b.title);
     });
-    if (mounted) setState(() { _achievements = achievements; _loading = false; });
+    if (mounted)
+      setState(() {
+        _achievements = achievements;
+        _loading = false;
+      });
   }
 
   /// Map icon name string to IconData
   IconData _getIcon(String iconName) {
     switch (iconName) {
-      case 'directions_walk': return Icons.directions_walk;
-      case 'local_fire_department': return Icons.local_fire_department;
-      case 'emoji_events': return Icons.emoji_events;
-      case 'fitness_center': return Icons.fitness_center;
-      case 'diamond': return Icons.diamond;
-      case 'military_tech': return Icons.military_tech;
-      case 'star': return Icons.star;
-      case 'explore': return Icons.explore;
-      case 'thumb_up': return Icons.thumb_up;
-      case 'flag': return Icons.flag;
-      default: return Icons.emoji_events;
+      case 'directions_walk':
+        return Icons.directions_walk;
+      case 'local_fire_department':
+        return Icons.local_fire_department;
+      case 'emoji_events':
+        return Icons.emoji_events;
+      case 'fitness_center':
+        return Icons.fitness_center;
+      case 'diamond':
+        return Icons.diamond;
+      case 'military_tech':
+        return Icons.military_tech;
+      case 'star':
+        return Icons.star;
+      case 'explore':
+        return Icons.explore;
+      case 'thumb_up':
+        return Icons.thumb_up;
+      case 'flag':
+        return Icons.flag;
+      default:
+        return Icons.emoji_events;
     }
   }
 
@@ -66,17 +81,20 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: Row(children: [
-                    const Icon(Icons.emoji_events, color: Colors.amber, size: 28),
+                    const Icon(Icons.emoji_events,
+                        color: Colors.amber, size: 28),
                     const SizedBox(width: 8),
                     Text('$unlocked / ${_achievements.length} Unlocked',
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                        style: theme.textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold)),
                   ]),
                 ),
                 // Grid
                 Expanded(
                   child: GridView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 8,
                       crossAxisSpacing: 8,
@@ -117,7 +135,9 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 achievement.title,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: isUnlocked ? theme.colorScheme.onPrimaryContainer : theme.colorScheme.outline,
+                  color: isUnlocked
+                      ? theme.colorScheme.onPrimaryContainer
+                      : theme.colorScheme.outline,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -126,7 +146,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                 achievement.description,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: isUnlocked
-                      ? theme.colorScheme.onPrimaryContainer.withAlpha((0.7 * 255).round())
+                      ? theme.colorScheme.onPrimaryContainer
+                          .withAlpha((0.7 * 255).round())
                       : theme.colorScheme.outline,
                 ),
                 textAlign: TextAlign.center,
@@ -138,7 +159,10 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     DateFormat.yMMMd().format(achievement.unlockedAt!),
-                    style: TextStyle(fontSize: 10, color: theme.colorScheme.onPrimaryContainer.withAlpha((0.5 * 255).round())),
+                    style: TextStyle(
+                        fontSize: 10,
+                        color: theme.colorScheme.onPrimaryContainer
+                            .withAlpha((0.5 * 255).round())),
                   ),
                 ),
             ],
@@ -156,11 +180,16 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(_getIcon(achievement.icon), size: 48, color: achievement.isUnlocked ? Colors.amber : Colors.grey),
+            Icon(_getIcon(achievement.icon),
+                size: 48,
+                color: achievement.isUnlocked ? Colors.amber : Colors.grey),
             const SizedBox(height: 12),
-            Text(achievement.title, style: Theme.of(ctx).textTheme.headlineSmall),
+            Text(achievement.title,
+                style: Theme.of(ctx).textTheme.headlineSmall),
             const SizedBox(height: 8),
-            Text(achievement.description, style: Theme.of(ctx).textTheme.bodyLarge, textAlign: TextAlign.center),
+            Text(achievement.description,
+                style: Theme.of(ctx).textTheme.bodyLarge,
+                textAlign: TextAlign.center),
             const SizedBox(height: 8),
             Text(
               achievement.isUnlocked
