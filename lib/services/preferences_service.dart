@@ -31,7 +31,7 @@ class PreferencesService extends ChangeNotifier {
     notifyListeners();
   }
 
-  // User name
+  // Username
   String get userName => _prefs?.getString(_keyUserName) ?? 'Fitness Quester';
   Future<void> setUserName(String value) async {
     await _prefs?.setString(_keyUserName, value);
@@ -39,7 +39,8 @@ class PreferencesService extends ChangeNotifier {
   }
 
   // Fitness goal
-  String get fitnessGoal => _prefs?.getString(_keyFitnessGoal) ?? 'Stay active and healthy';
+  String get fitnessGoal =>
+      _prefs?.getString(_keyFitnessGoal) ?? 'Stay active and healthy';
   Future<void> setFitnessGoal(String value) async {
     await _prefs?.setString(_keyFitnessGoal, value);
     notifyListeners();
