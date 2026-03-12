@@ -5,7 +5,6 @@ import '../services/database_helper.dart';
 import '../services/achievement_checker.dart';
 import '../models/models.dart';
 
-/// Active workout session screen for a specific quest.
 /// Tracks sets, reps, weight, has a timer, and logs completion.
 class WorkoutLoggerScreen extends StatefulWidget {
   final Quest quest;
@@ -30,11 +29,13 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
     _exerciseProgress = widget.quest.exercises.map((qe) {
       return _ExerciseProgress(
         questExercise: qe,
-        setData: List.generate(qe.targetSets, (i) => _SetData(
-          setNumber: i + 1,
-          targetReps: qe.targetReps,
-          targetWeight: qe.targetWeight ?? 0,
-        )),
+        setData: List.generate(
+            qe.targetSets,
+            (i) => _SetData(
+                  setNumber: i + 1,
+                  targetReps: qe.targetReps,
+                  targetWeight: qe.targetWeight ?? 0,
+                )),
       );
     }).toList();
   }
@@ -96,7 +97,8 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
               child: Center(
                 child: Text(
                   _formatDuration(_stopwatch.elapsed),
-                  style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -118,7 +120,8 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Text('$_completedSets/$_totalSets sets', style: theme.textTheme.bodySmall),
+                    Text('$_completedSets/$_totalSets sets',
+                        style: theme.textTheme.bodySmall),
                   ]),
                 ),
                 // Exercise list
@@ -126,7 +129,8 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
                   child: ListView.builder(
                     padding: const EdgeInsets.all(16),
                     itemCount: _exerciseProgress.length,
-                    itemBuilder: (context, index) => _buildExerciseCard(_exerciseProgress[index], theme),
+                    itemBuilder: (context, index) =>
+                        _buildExerciseCard(_exerciseProgress[index], theme),
                   ),
                 ),
                 // Finish button
@@ -137,7 +141,8 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
                       onPressed: _saving ? null : _finishWorkout,
                       icon: const Icon(Icons.check),
                       label: const Text('Finish Workout'),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+                      style: FilledButton.styleFrom(
+                          minimumSize: const Size.fromHeight(48)),
                     ),
                   ),
                 ),
@@ -152,20 +157,24 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.fitness_center, size: 80, color: theme.colorScheme.primary),
+          Icon(Icons.fitness_center,
+              size: 80, color: theme.colorScheme.primary),
           const SizedBox(height: 16),
-          Text(widget.quest.title, style: theme.textTheme.headlineSmall, textAlign: TextAlign.center),
+          Text(widget.quest.title,
+              style: theme.textTheme.headlineSmall,
+              textAlign: TextAlign.center),
           const SizedBox(height: 8),
-          Text('${widget.quest.exercises.length} exercises • ${widget.quest.completedSessions}/${widget.quest.targetSessions} sessions done',
-            style: theme.textTheme.bodyMedium),
+          Text(
+              '${widget.quest.exercises.length} exercises • ${widget.quest.completedSessions}/${widget.quest.targetSessions} sessions done',
+              style: theme.textTheme.bodyMedium),
           const SizedBox(height: 24),
           // Exercise preview
           ...widget.quest.exercises.map((qe) => ListTile(
-            dense: true,
-            leading: const Icon(Icons.circle_outlined, size: 16),
-            title: Text(qe.exercise?.name ?? 'Unknown'),
-            subtitle: Text('${qe.targetSets} sets × ${qe.targetReps} reps'),
-          )),
+                dense: true,
+                leading: const Icon(Icons.circle_outlined, size: 16),
+                title: Text(qe.exercise?.name ?? 'Unknown'),
+                subtitle: Text('${qe.targetSets} sets × ${qe.targetReps} reps'),
+              )),
           const SizedBox(height: 24),
           FilledButton.icon(
             onPressed: _startWorkout,
@@ -188,55 +197,88 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(name, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold)),
+            Text(name,
+                style: theme.textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             // Header row
             const Row(children: [
-              SizedBox(width: 40, child: Text('Set', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
-              Expanded(child: Text('Reps', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
-              Expanded(child: Text('Weight', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12))),
-              SizedBox(width: 48, child: Text('Done', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12), textAlign: TextAlign.center)),
+              SizedBox(
+                  width: 40,
+                  child: Text('Set',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 12))),
+              Expanded(
+                  child: Text('Reps',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 12))),
+              Expanded(
+                  child: Text('Weight',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 12))),
+              SizedBox(
+                  width: 48,
+                  child: Text('Done',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      textAlign: TextAlign.center)),
             ]),
             const Divider(height: 8),
             // Set rows
             ...ep.setData.map((s) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Row(children: [
-                SizedBox(width: 40, child: Text('${s.setNumber}', style: theme.textTheme.bodyMedium)),
-                Expanded(
-                  child: SizedBox(
-                    height: 36,
-                    child: TextField(
-                      controller: TextEditingController(text: '${s.targetReps}'),
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(isDense: true, border: OutlineInputBorder(), contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6)),
-                      style: const TextStyle(fontSize: 14),
-                      onChanged: (v) => s.actualReps = int.tryParse(v) ?? s.targetReps,
+                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  child: Row(children: [
+                    SizedBox(
+                        width: 40,
+                        child: Text('${s.setNumber}',
+                            style: theme.textTheme.bodyMedium)),
+                    Expanded(
+                      child: SizedBox(
+                        height: 36,
+                        child: TextField(
+                          controller:
+                              TextEditingController(text: '${s.targetReps}'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              isDense: true,
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 6)),
+                          style: const TextStyle(fontSize: 14),
+                          onChanged: (v) =>
+                              s.actualReps = int.tryParse(v) ?? s.targetReps,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: SizedBox(
-                    height: 36,
-                    child: TextField(
-                      controller: TextEditingController(text: '${s.targetWeight}'),
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(isDense: true, border: OutlineInputBorder(), contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 6)),
-                      style: const TextStyle(fontSize: 14),
-                      onChanged: (v) => s.actualWeight = double.tryParse(v) ?? s.targetWeight,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SizedBox(
+                        height: 36,
+                        child: TextField(
+                          controller:
+                              TextEditingController(text: '${s.targetWeight}'),
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              isDense: true,
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 6)),
+                          style: const TextStyle(fontSize: 14),
+                          onChanged: (v) => s.actualWeight =
+                              double.tryParse(v) ?? s.targetWeight,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 48,
-                  child: Checkbox(
-                    value: s.completed,
-                    onChanged: (v) => setState(() => s.completed = v ?? false),
-                  ),
-                ),
-              ]),
-            )),
+                    SizedBox(
+                      width: 48,
+                      child: Checkbox(
+                        value: s.completed,
+                        onChanged: (v) =>
+                            setState(() => s.completed = v ?? false),
+                      ),
+                    ),
+                  ]),
+                )),
           ],
         ),
       ),
@@ -261,15 +303,23 @@ class _WorkoutLoggerScreenState extends State<WorkoutLoggerScreen> {
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (i) => IconButton(
-                  icon: Icon(i < _rating ? Icons.star : Icons.star_border, color: Colors.amber, size: 32),
-                  onPressed: () => setDialogState(() => _rating = i + 1),
-                )),
+                children: List.generate(
+                    5,
+                    (i) => IconButton(
+                          icon: Icon(
+                              i < _rating ? Icons.star : Icons.star_border,
+                              color: Colors.amber,
+                              size: 32),
+                          onPressed: () =>
+                              setDialogState(() => _rating = i + 1),
+                        )),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: _notesCtrl,
-                decoration: const InputDecoration(labelText: 'Notes (optional)', hintText: 'How did it feel?'),
+                decoration: const InputDecoration(
+                    labelText: 'Notes (optional)',
+                    hintText: 'How did it feel?'),
                 maxLines: 2,
               ),
             ],
